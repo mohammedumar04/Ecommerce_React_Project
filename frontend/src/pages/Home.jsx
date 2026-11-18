@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from "react-redux"
 import { Link } from "react-router-dom";
 import { asyncUpdateUser } from "../store/actions/userActions";
-import { Suspense, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import axios from '../api/axiosconfig'
 import InfinateScroll from 'react-infinite-scroll-component'
 
@@ -48,29 +48,82 @@ const Home = () => {
 
   const renderProducts = products.map((product) => {
     return (
-      <div key={product.id} className="block w-[20vw] h-[62vh] rounded-[7px] overflow-hidden bg-white/10 p-4">
-        <img className="w-[16vw] h-[32vh] object-contain mb-2 rounded-[9px] " src={product.image} alt="Not found" />
-        <h1 className="text-2xl text-center mb-1 uppercase font-bold">{product.title.slice(0, 50)}</h1>
-        <p className="text-2xl text-green-400 text-center mb-1">₹ {product.price}</p>
-        <p className="text-xl text-center mb-1">{product.description.slice(0, 2)}... <Link to={`/products/${product.id}`} className="text-blue-500">more info</Link></p>
-        <button onClick={() => { addToCartHandler(product) }} className="text-gray-900 bg-white px-4 py-2 rounded ml-20 text-xl">Add to cart</button>
-      </div>
+      <article
+        key={product.id}
+        className="group flex flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white p-4 transition-shadow hover:shadow-lg hover:shadow-slate-200/60"
+      >
+        <Link
+          to={`/products/${product.id}`}
+          className="flex aspect-square items-center justify-center overflow-hidden rounded-xl bg-slate-50 p-6"
+        >
+          <img
+            className="h-full w-full object-contain transition-transform duration-300 group-hover:scale-105"
+            src={product.image}
+            alt={product.title}
+          />
+        </Link>
+        <div className="flex flex-1 flex-col pt-4">
+          <h2 className="line-clamp-2 min-h-12 text-sm font-medium leading-6 text-slate-800">
+            {product.title}
+          </h2>
+          <p className="mt-2 text-lg font-semibold tracking-tight text-slate-950">
+            ₹ {product.price}
+          </p>
+          <p className="mt-2 line-clamp-2 text-sm leading-5 text-slate-500">
+            {product.description}
+          </p>
+          <div className="mt-auto flex items-center gap-3 pt-5">
+            <button
+              onClick={() => addToCartHandler(product)}
+              className="flex-1 rounded-full bg-slate-900 px-4 py-2.5 text-sm font-medium text-white transition-colors hover:bg-indigo-700"
+            >
+              Add to cart
+            </button>
+            <Link
+              to={`/products/${product.id}`}
+              className="text-sm font-medium text-slate-500 transition-colors hover:text-indigo-700"
+            >
+              Details
+            </Link>
+          </div>
+        </div>
+      </article>
     )
   })
 
   return (
-    <InfinateScroll dataLength={products.length}
-      next={fetchProducts}
-      loader={<h4>Loading...</h4>}
-      hasMore = {hasMore}
-      endMessage={
-        <p style={{ textAlign: 'center' }}>
-          <b>Yay! You have seen it all</b>
+    <section>
+      <div className="mb-8">
+        <p className="text-xs font-semibold uppercase tracking-[0.2em] text-indigo-600">
+          Curated for you
         </p>
-      }
-      
-    ><div className="p-10 flex flex-wrap gap-10"><Suspense fallback={<h1>LOADING</h1>}>{renderProducts}</Suspense></div></InfinateScroll>
-
+        <h1 className="mt-2 text-3xl font-semibold tracking-tight text-slate-950 sm:text-4xl">
+          Find your next favorite.
+        </h1>
+        <p className="mt-3 max-w-xl text-sm leading-6 text-slate-500 sm:text-base">
+          Thoughtful picks, everyday essentials, and a little something special.
+        </p>
+      </div>
+      <InfinateScroll
+        dataLength={products.length}
+        next={fetchProducts}
+        loader={
+          <p className="py-8 text-center text-sm text-slate-500">
+            Loading more products...
+          </p>
+        }
+        hasMore={hasMore}
+        endMessage={
+          <p className="py-8 text-center text-sm text-slate-500">
+            You&apos;ve seen everything.
+          </p>
+        }
+      >
+        <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+          {renderProducts}
+        </div>
+      </InfinateScroll>
+    </section>
   )
 }
 

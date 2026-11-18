@@ -1,5 +1,8 @@
 @import "tailwindcss";
 
-body{
-    background-color: #1e2939;
+@layer base {
+  body {
+    min-width: 320px;
+    margin: 0;
+  }
 }

@@ -1,9 +1,8 @@
 import { useForm } from "react-hook-form"
 import { NavLink, useNavigate } from "react-router-dom"
-import {nanoid} from "nanoid"
+import { nanoid } from "nanoid"
 import { asyncRegisterUsers } from "../store/actions/userActions"
-import {useDispatch} from "react-redux"
-
+import { useDispatch } from "react-redux"
 
 const Register = () => {
   const { register, handleSubmit, reset } = useForm()
@@ -20,18 +19,60 @@ const Register = () => {
   }
 
   return (
-    <div className="w-full h-full flex flex-col justify-center items-center">
-      <div className="bg-white/10 p-12 rounded">
-        <h1 className="text-3xl font-bold uppercase mb-10 text-center">Register</h1>
-        <form onSubmit={handleSubmit(RegisterHandler)}  className="flex flex-col">
-          <input className="text-xl border-b outline-0  mb-6 p-1" type="text" {...register("username")} placeholder="Full Name" />
-          <input className="text-xl border-b outline-0  mb-6 p-1" type="text" {...register("email")} placeholder="ex: jack77@gmail.com" />
-          <input className="text-xl border-b outline-0  mb-6 p-1" type="password" {...register("password")} placeholder ="Password" />
-          <button className="text-xl px-4 py-2 bg-blue-400 rounded mb-2">Register</button>
-          <p>Already have an account? <NavLink className="text-blue-300" to={"/login"}>Login</NavLink></p>
+    <section className="mx-auto flex min-h-[60vh] max-w-md items-center justify-center px-4">
+      <div className="w-full rounded-3xl border border-slate-200 bg-white p-7 shadow-sm sm:p-10">
+        <p className="text-xs font-semibold uppercase tracking-[0.2em] text-indigo-600">
+          Join the shop
+        </p>
+        <h1 className="mt-3 text-3xl font-semibold tracking-tight text-slate-950">
+          Create your account
+        </h1>
+        <p className="mt-2 text-sm leading-6 text-slate-500">
+          A few details and you&apos;re all set.
+        </p>
+        <form onSubmit={handleSubmit(RegisterHandler)} className="mt-8 flex flex-col gap-5">
+          <label className="flex flex-col gap-2 text-sm font-medium text-slate-700">
+            Full name
+            <input
+              className="rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm outline-none transition focus:border-indigo-500 focus:ring-4 focus:ring-indigo-100"
+              type="text"
+              autoComplete="name"
+              {...register("username")}
+              placeholder="Your name"
+            />
+          </label>
+          <label className="flex flex-col gap-2 text-sm font-medium text-slate-700">
+            Email
+            <input
+              className="rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm outline-none transition focus:border-indigo-500 focus:ring-4 focus:ring-indigo-100"
+              type="email"
+              autoComplete="email"
+              {...register("email")}
+              placeholder="you@example.com"
+            />
+          </label>
+          <label className="flex flex-col gap-2 text-sm font-medium text-slate-700">
+            Password
+            <input
+              className="rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm outline-none transition focus:border-indigo-500 focus:ring-4 focus:ring-indigo-100"
+              type="password"
+              autoComplete="new-password"
+              {...register("password")}
+              placeholder="Create a password"
+            />
+          </label>
+          <button className="mt-1 rounded-full bg-slate-900 px-5 py-3 text-sm font-medium text-white transition-colors hover:bg-indigo-700">
+            Create account
+          </button>
         </form>
+        <p className="mt-6 text-center text-sm text-slate-500">
+          Already have an account?{" "}
+          <NavLink className="font-medium text-indigo-700 hover:text-indigo-900" to="/login">
+            Sign in
+          </NavLink>
+        </p>
       </div>
-    </div>
+    </section>
   )
 }
 
